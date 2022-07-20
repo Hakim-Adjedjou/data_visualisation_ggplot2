@@ -78,4 +78,56 @@ ggplot(df)+
   stat_summary(aes(x=Pclass,y=Age),fun = median ,geom = "point", colour="yellow")+
   labs(x="class type",title = "age distribution by class")
 
-#
+#zoom in :
+
+ggplot(df)+
+  theme_bw()+
+  geom_jitter(aes(x=Pclass, y=Age))+
+  stat_summary(aes(x=Pclass,y=Age),fun = mean ,geom = "point", colour="red")+
+  stat_summary(aes(x=Pclass,y=Age),fun = median ,geom = "point", colour="yellow")+
+  coord_cartesian(ylim = c(0,10))+
+  labs(x="class type",title = "age distribution by class")
+
+#multiple plots in a single grid : 
+
+  first_graph<-ggplot(df)+
+  theme_bw()+
+  geom_jitter(aes(x=Pclass, y=Age))+
+  stat_summary(aes(x=Pclass,y=Age),fun = mean ,geom = "point", colour="red")+
+  stat_summary(aes(x=Pclass,y=Age),fun = median ,geom = "point", colour="yellow")+
+  labs(x="class type",title = "age distribution by class")
+  
+  
+  second_graph<-ggplot(df , aes(x=Sex , fill=Survived))+theme_bw()+
+    geom_bar()+labs(y="number of passengers",title = "survival rates by sex")
+  
+  third_graph<-ggplot(df)+
+    geom_boxplot(aes(x=Sex ,y=Age ,fill=Sex))+
+    scale_fill_manual(values = c("#999999", "#E69F00"))+
+    theme_bw()+
+    labs(x="sex categories")
+  
+  # library to load : 
+  library(patchwork)
+  
+  first_graph + second_graph + third_graph # this will return the graphs on same line
+  first_graph / second_graph #this will return graphs top of each other
+  (first_graph | second_graph) / third_graph #this is a more suitable presentation
+  
+  
+  #we can move the place of legends if it s in the way , just
+  #by adding : 
+  
+  res<-(third_graph| second_graph) / first_graph
+  
+  res + plot_layout(
+    guides = "collect"
+  )
+  
+  
+  
+  
+
+
+
+  
