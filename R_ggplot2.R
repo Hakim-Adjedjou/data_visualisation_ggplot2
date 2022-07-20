@@ -77,3 +77,5 @@ ggplot(df)+
   stat_summary(aes(x=Pclass,y=Age),fun = mean ,geom = "point", colour="red")+
   stat_summary(aes(x=Pclass,y=Age),fun = median ,geom = "point", colour="yellow")+
   labs(x="class type",title = "age distribution by class")
+
+#
