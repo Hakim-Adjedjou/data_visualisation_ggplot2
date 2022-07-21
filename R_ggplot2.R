@@ -30,7 +30,8 @@ df$Embarked<-as.factor(df$Embarked)
 #question 1 : what s the distribution of survival rates in general (by %) ?
 
 ggplot(df , aes(x=Survived, y=after_stat(100*count/sum(count))))+theme_bw()+
-  geom_bar()+labs(y="number of passengers by %",title = "survival rates")
+  geom_bar()+labs(y="number of passengers by %",title = "survival rates ")+
+  transition_states(states = Pclass)
 
 # in-depth ( showing propotions of survival) : 
 prop.table(table(df$Survived))
@@ -123,6 +124,33 @@ ggplot(df)+
   res + plot_layout(
     guides = "collect"
   )
+  
+  #to edit the space took by each graph we can add : 
+  
+  res+ plot_layout (
+    widths = c(1,2,1)     #this line means devide the space into 4 , the middle one takes 2 ( so double the others)
+  )
+  
+#another variant would be : units(c(5,1,1),c('cm','null','null'))
+# in this command above the first graph takes 5 cm the others just fill the remaining
+
+  
+######################################################################
+  
+#part 2 : animation in ggplot 2
+  
+  library(gifski)
+  library(gganimate)
+  
+#animation of survival rate per class : 
+  ggplot(df , aes(x=Survived, y=after_stat(100*count/sum(count))))+theme_bw()+
+    geom_bar()+labs(y="number of passengers by %",title = "survival rates in {closest_state}")+
+    transition_states(states = Pclass)+
+    enter_grow()+
+    exit_fade()
+  
+  
+  
   
   
   
